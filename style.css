@@ -9,6 +9,6 @@ body {
 }
 
 canvas {
-    border: 2px solid rgb(151, 149, 149);
+    border: 5px solid rgb(90, 1, 1);
     margin: 50px auto;
 }

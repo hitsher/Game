@@ -16,20 +16,21 @@ canvasElem.height = canvasElem.width / 2;
 window.addEventListener("resize", function () {
     canvasElem.width = window.innerWidth * 0.7;
     canvasElem.height = canvasElem.width / 2;
-    
+    levels = 0;
+    meteors = 1;
+    addMove = 0.5;
+    addMeteor()
 })
 
 class space {
     constructor(color, positionX, positionY) {
-        this.width = canvasElem.width * 0.06;
-        this.height = this.width / 2;
+        this.width = 40;
+        this.height = 30;
         this.color = color;
         this.positionX = positionX;
         this.positionY = positionY;
     }
 };
-
-let playerspace = new space("black", 0, 50);
 
 class Meteor {
     constructor(width, height, color, positionX, positionY) {
@@ -48,29 +49,30 @@ function drawObjects(objectsToDraw, context) {
     };
 }
 
+let playerspace = new space("black", 0, 50);
+
 function addMeteor() {
     if (meteors == 1) {
         addMove = addMove + 0.5;
     }
     objectsToDraw = [];
     meteorsGame = [];
-    objectsToDraw.push(playerspace);
     for (let i = 0; i < meteors; i++) {
         let j = Math.floor(Math.random() * canvasElem.height) - 100;
         let k = Math.floor(Math.random() * 5) + 4;
         let l = Math.floor(Math.random() * Colors.length);
         let l1 = Math.floor(Math.random() * Colors.length);
-        let nextMeteor = new Meteor(20, canvasElem.height * 0.1 * k, Colors[l], canvasElem.width * 0.15 * (i + 1.5), j);
-        let nextMeteor1 = new Meteor(20, canvasElem.height * 0.1 * k, Colors[l1], canvasElem.width * 0.15 * (i + 1.5), j - canvasElem.height);
-        objectsToDraw.push(nextMeteor, nextMeteor1);
+        let nextMeteor = new Meteor(canvasElem.width * 0.03, canvasElem.height * 0.1 * k, Colors[l], canvasElem.width * 0.15 * (i + 1.5), j);
+        let nextMeteor1 = new Meteor(canvasElem.width * 0.03, canvasElem.height * 0.1 * k, Colors[l1], canvasElem.width * 0.15 * (i + 1.5), j - canvasElem.height);
+        objectsToDraw.push(playerspace, nextMeteor, nextMeteor1);
         meteorsGame.push(nextMeteor, nextMeteor1);
     }
     meteors = meteors + 1;
     if (meteors == 6) {
         meteors = 1
     }
-    speedDiv.innerText = "Speed: "+addMove;
-    levelDiv.innerText = "Level: "+levels;
+    speedDiv.innerText = "Speed: " + addMove;
+    levelDiv.innerText = "Level: " + levels;
 }
 
 let up = false;
@@ -189,7 +191,7 @@ const run = () => {
 }
 
 function timer() {
-  setInterval(run, 1000 / 60);
+    setInterval(run, 1000 / 60);
 }
 addMeteor()
 timer()

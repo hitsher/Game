@@ -1,20 +1,35 @@
 const canvasElem = document.getElementById('stage');
 const ctx = canvasElem.getContext('2d');
-let points = 0;
-let addMove = 1;
+const Colors = ["AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", "DarkCyan", "DarkGoldenRod", "DarkGray", "DarkGrey", "DarkGreen", "DarkKhaki", "DarkMagenta", "DarkOliveGreen", "DarkOrange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", "DarkSlateBlue", "DarkSlateGray", "DarkSlateGrey", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", "DimGray", "DimGrey", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "Gold", "GoldenRod", "Gray", "Grey", "Green", "GreenYellow", "HoneyDew", "HotPink", "IndianRed", "Indigo", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", "LightGrey", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", "LightSlateGrey", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "RebeccaPurple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateGray", "SlateGray", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "WhiteSmoke", "Yellow", "YellowGreen"];
+let objectsToDraw = [];
+let meteorsGame = [];
+let levels = 0;
+let meteors = 1;
+let addMove = 0.5;
 
-canvasElem.width = innerWidth * 0.8;
+let speedDiv = document.getElementById("speed");
+let levelDiv = document.getElementById("level");
+
+canvasElem.width = window.innerWidth * 0.7;
 canvasElem.height = canvasElem.width / 2;
+
+window.addEventListener("resize", function () {
+    canvasElem.width = window.innerWidth * 0.7;
+    canvasElem.height = canvasElem.width / 2;
+    
+})
 
 class space {
     constructor(color, positionX, positionY) {
-        this.width = canvasElem.width*0.06;
-        this.height = this.width/2;
+        this.width = canvasElem.width * 0.06;
+        this.height = this.width / 2;
         this.color = color;
         this.positionX = positionX;
         this.positionY = positionY;
     }
 };
+
+let playerspace = new space("black", 0, 50);
 
 class Meteor {
     constructor(width, height, color, positionX, positionY) {
@@ -33,25 +48,30 @@ function drawObjects(objectsToDraw, context) {
     };
 }
 
-const objectsToDraw = [];
-const meteorsGame = [];
-
-const playerspace = new space("pink", 0, 50);
-const Meteor1 = new Meteor(20, canvasElem.height * 0.6, "black", canvasElem.width * 0.2 + 30, 50 - canvasElem.height);
-const Meteor2 = new Meteor(20, canvasElem.height * 0.5, "black", canvasElem.width * 0.2 + 30, 50);
-
-const Meteor3 = new Meteor(20, canvasElem.height * 0.7, "black", canvasElem.width * 0.4 + 30, 150 - canvasElem.height);
-const Meteor4 = new Meteor(20, canvasElem.height * 0.5, "black", canvasElem.width * 0.4 + 30, 150);
-
-const Meteor5 = new Meteor(20, canvasElem.height * 0.5, "black", canvasElem.width * 0.6 + 30, 100 - canvasElem.height);
-const Meteor6 = new Meteor(20, canvasElem.height * 0.8, "black", canvasElem.width * 0.6 + 30, 100);
-
-const Meteor7 = new Meteor(20, canvasElem.height * 0.7, "black", canvasElem.width * 0.8 + 30, 200 - canvasElem.height);
-const Meteor8 = new Meteor(20, canvasElem.height * 0.5, "black", canvasElem.width * 0.8 + 30, 200);
-
-
-objectsToDraw.push(playerspace, Meteor1, Meteor2, Meteor3, Meteor4, Meteor5, Meteor6, Meteor7, Meteor8);
-meteorsGame.push(Meteor1, Meteor2, Meteor3, Meteor4, Meteor5, Meteor6, Meteor7, Meteor8);
+function addMeteor() {
+    if (meteors == 1) {
+        addMove = addMove + 0.5;
+    }
+    objectsToDraw = [];
+    meteorsGame = [];
+    objectsToDraw.push(playerspace);
+    for (let i = 0; i < meteors; i++) {
+        let j = Math.floor(Math.random() * canvasElem.height) - 100;
+        let k = Math.floor(Math.random() * 5) + 4;
+        let l = Math.floor(Math.random() * Colors.length);
+        let l1 = Math.floor(Math.random() * Colors.length);
+        let nextMeteor = new Meteor(20, canvasElem.height * 0.1 * k, Colors[l], canvasElem.width * 0.15 * (i + 1.5), j);
+        let nextMeteor1 = new Meteor(20, canvasElem.height * 0.1 * k, Colors[l1], canvasElem.width * 0.15 * (i + 1.5), j - canvasElem.height);
+        objectsToDraw.push(nextMeteor, nextMeteor1);
+        meteorsGame.push(nextMeteor, nextMeteor1);
+    }
+    meteors = meteors + 1;
+    if (meteors == 6) {
+        meteors = 1
+    }
+    speedDiv.innerText = "Speed: "+addMove;
+    levelDiv.innerText = "Level: "+levels;
+}
 
 let up = false;
 let right = false;
@@ -75,25 +95,25 @@ document.addEventListener('keydown', function (e) {
         left = true
     }
     if (up === true) {
-        that.positionY = that.positionY - 10;
+        that.positionY = that.positionY - 20;
         if (that.positionY < 0) {
             that.positionY = 0;
         } else {}
     }
     if (right === true) {
-        that.positionX = that.positionX + 10;
+        that.positionX = that.positionX + 20;
         if (that.positionX > canvasElem.width - playerspace.width) {
             that.positionX = canvasElem.width - playerspace.width;
         } else {}
     }
     if (down === true) {
-        that.positionY = that.positionY + 10;
+        that.positionY = that.positionY + 20;
         if (that.positionY > canvasElem.height - playerspace.height) {
             that.positionY = canvasElem.height - playerspace.height;
         } else {}
     }
     if (left === true) {
-        that.positionX = that.positionX - 10;
+        that.positionX = that.positionX - 20;
         if (that.positionX < 0) {
             that.positionX = 0;
         } else {}
@@ -133,18 +153,21 @@ function checkCollision(meteorsGame) {
             right = false;
             up = false;
             down = false;
-            addMove = 1;
+            meteors = 1;
+            addMove = 0.5;
+            levels = 0;
+            addMeteor();
         }
     }
     if (spaceRight == canvasElem.width) {
         that.positionX = 0;
         that.positionY = 50;
-        points = points + 1;
+        levels = levels + 1;
         left = false;
         right = false;
         up = false;
         down = false;
-        addMove = addMove + 1;
+        addMeteor();
     }
 }
 
@@ -166,7 +189,7 @@ const run = () => {
 }
 
 function timer() {
-    let timer = setInterval(run, 1000 / 60);
+  setInterval(run, 1000 / 60);
 }
-
+addMeteor()
 timer()

@@ -1,0 +1,14 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: darkolivegreen;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    border: 2px solid rgb(151, 149, 149);
+    margin: 50px auto;
+}

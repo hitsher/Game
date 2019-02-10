@@ -9,6 +9,8 @@ let addMove = 0.5;
 
 let speedDiv = document.getElementById("speed");
 let levelDiv = document.getElementById("level");
+let joystickHeadDiv = document.getElementById("joystickHead");
+let joystickInnerDiv = document.getElementById("joystickInner");
 
 canvasElem.width = window.innerWidth * 0.7;
 canvasElem.height = canvasElem.width / 2;
@@ -136,6 +138,43 @@ document.addEventListener('keyup', function (e) {
         left = false
     }
 });
+
+
+
+
+let isDown = false;
+let pointerPosition;
+let offset = [0, 0];
+
+joystickHeadDiv.addEventListener("pointerdown", function (e) {
+    isDown = true;
+    offset = [
+        joystickHeadDiv.offsetLeft - e.clientX,
+        joystickHeadDiv.offsetTop - e.clientY
+    ];
+  
+}, true);
+
+joystickHeadDiv.addEventListener('pointerup', function () {
+    isDown = false;
+    joystickHeadDiv.style.left = 25+ 'px';
+    joystickHeadDiv.style.top = 25+ 'px';
+}, true);
+
+joystickHeadDiv.addEventListener('pointermove', function (e) {
+    event.preventDefault();
+    if ((isDown == true)&&((e.clientY + offset[1])>-25)&&((e.clientY + offset[1])<85)&&((e.clientX + offset[0])>-25)&&((e.clientX + offset[0])<85)   ) {
+        joystickHeadDiv.style.left = (e.clientX + offset[0]) + 'px';
+        joystickHeadDiv.style.top = (e.clientY + offset[1]) + 'px';
+       console.log(e.clientX + offset[0])
+           }
+}, true);
+document.addEventListener('pointerup', function () {
+    isDown = false;
+    joystickHeadDiv.style.left = 25+ 'px';
+    joystickHeadDiv.style.top = 25+ 'px';
+}, true);
+
 
 function checkCollision(meteorsGame) {
     const spaceLeft = that.positionX;

@@ -139,12 +139,10 @@ document.addEventListener('keyup', function (e) {
     }
 });
 
-
-
-
 let isDown = false;
 let pointerPosition;
 let offset = [0, 0];
+let moveEvent 
 
 joystickHeadDiv.addEventListener("pointerdown", function (e) {
     isDown = true;
@@ -152,29 +150,72 @@ joystickHeadDiv.addEventListener("pointerdown", function (e) {
         joystickHeadDiv.offsetLeft - e.clientX,
         joystickHeadDiv.offsetTop - e.clientY
     ];
-  
 }, true);
 
-joystickHeadDiv.addEventListener('pointerup', function () {
-    isDown = false;
-    joystickHeadDiv.style.left = 25+ 'px';
-    joystickHeadDiv.style.top = 25+ 'px';
-}, true);
+/*
+document.addEventListener("click", function (event) {
+    
+console.log("document.addEventListener(pointerdown")
+moveOb(event)
+})
+*/
 
-joystickHeadDiv.addEventListener('pointermove', function (e) {
+document.addEventListener('pointermove', function (e) {
     event.preventDefault();
-    if ((isDown == true)&&((e.clientY + offset[1])>-25)&&((e.clientY + offset[1])<85)&&((e.clientX + offset[0])>-25)&&((e.clientX + offset[0])<85)   ) {
+    moveEvent=e
+    if (isDown == true) {
         joystickHeadDiv.style.left = (e.clientX + offset[0]) + 'px';
         joystickHeadDiv.style.top = (e.clientY + offset[1]) + 'px';
-       console.log(e.clientX + offset[0])
-           }
-}, true);
-document.addEventListener('pointerup', function () {
-    isDown = false;
-    joystickHeadDiv.style.left = 25+ 'px';
-    joystickHeadDiv.style.top = 25+ 'px';
+
+        if (e.clientX + offset[0] < -6) {
+            joystickHeadDiv.style.left = "-6px"
+        }
+        if (e.clientX + offset[0] > 56) {
+            joystickHeadDiv.style.left = "56px"
+        }
+        if (e.clientY + offset[1] < -6) {
+            joystickHeadDiv.style.top = "-6px"
+        }
+        if (e.clientY + offset[1] > 56) {
+            joystickHeadDiv.style.top = "56px"
+        }
+
+        moveOb(moveEvent)
+    }
 }, true);
 
+function moveOb(moveEvent){
+if (moveEvent.clientY + offset[1] < 25) {
+    that.positionY = that.positionY - 4;
+    if (that.positionY < 0) {
+        that.positionY = 0;
+    } else {}
+}
+if (moveEvent.clientX + offset[0] > 25) {
+    that.positionX = that.positionX + 4;
+    if (that.positionX > canvasElem.width - playerspace.width) {
+        that.positionX = canvasElem.width - playerspace.width;
+    } else {}
+}
+if (moveEvent.clientY + offset[1] > 25) {
+    that.positionY = that.positionY + 4;
+    if (that.positionY > canvasElem.height - playerspace.height) {
+        that.positionY = canvasElem.height - playerspace.height;
+    } else {}
+}
+if (moveEvent.clientX + offset[0] < 25) {
+    that.positionX = that.positionX - 4;
+    if (that.positionX < 0) {
+        that.positionX = 0;
+    } else {}
+}
+}
+
+document.addEventListener('pointerup', function () {
+    isDown = false;
+    joystickHeadDiv.style.left = 25 + 'px';
+    joystickHeadDiv.style.top = 25 + 'px';
+}, true);
 
 function checkCollision(meteorsGame) {
     const spaceLeft = that.positionX;

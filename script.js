@@ -12,11 +12,11 @@ let levelDiv = document.getElementById("level");
 let joystickHeadDiv = document.getElementById("joystickHead");
 let joystickInnerDiv = document.getElementById("joystickInner");
 
-canvasElem.width = window.innerWidth * 0.7;
+canvasElem.width = window.innerWidth * 0.5;
 canvasElem.height = canvasElem.width / 2;
 
 window.addEventListener("resize", function () {
-    canvasElem.width = window.innerWidth * 0.7;
+    canvasElem.width = window.innerWidth * 0.5;
     canvasElem.height = canvasElem.width / 2;
     levels = 0;
     meteors = 1;

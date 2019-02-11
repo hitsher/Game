@@ -5,11 +5,11 @@
 body {
     background-color: rgb(251, 227, 227);
     justify-content: center;
-
+    
 }
 
 section {
-    width: 70%;
+    width: 50%;
     min-width: 300px;
     align-items: center;
     margin-left: auto;

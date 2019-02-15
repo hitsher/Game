@@ -6,10 +6,18 @@
     <title></title>
     <meta name="description" content="">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        crossorigin="anonymous">
 </head>
 
 <body>
+
     <section>
+        <button id="musicon" ><i class="fas fa-volume-up fa-lg"> Music</i></button>
+        <button id="musicoff" ><i class="fas fa-volume-mute fa-lg"> Music</i></button>
+
+        <button id="effectson" ><i class="fas fa-volume-up fa-lg"> Sound</i></button>
+        <button id="effectsoff" ><i class="fas fa-volume-mute fa-lg"> Sound</i></button>
 
         <head>
             <h1>Game</h1>
@@ -19,15 +27,11 @@
             <div id="speed"></div>
         </div>
         <canvas id="stage"> </canvas>
-        <div id="joystickFrame">
-            <div id="joystickInner">
-                <div id="joystickHead">
-                </div>
+        <div id="joystickInner">
+            <div id="joystickHead">
             </div>
         </div>
-
         </div>
-
     </section>
 
     <script src="script.js" async defer></script>

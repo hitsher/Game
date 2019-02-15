@@ -3,9 +3,9 @@
 }
 
 body {
-    background-color: rgb(251, 227, 227);
+    background-color: rgb(119, 83, 83);
     justify-content: center;
-    
+        
 }
 
 section {
@@ -14,6 +14,29 @@ section {
     align-items: center;
     margin-left: auto;
     margin-right: auto;
+}
+
+#musicon, #musicoff {
+    position: absolute;
+    border: none;
+    background: none;
+    color: white;
+}
+
+#musicoff{
+    display: none;
+}
+
+#effectson, #effectsoff {
+    position: absolute;
+    border: none;
+    background: none;
+    top:50px;
+    color: white;
+}
+
+#effectsoff{
+    display: none;
 }
 
 h1 {
@@ -46,21 +69,13 @@ canvas {
 
 #level {}
 
-#joystickFrame {
+
+
+#joystickInner {
     position: relative;
     margin: 50px auto;
     border-radius: 50%;
     top: 80%;
-    height: 200px;
-    width: 200px;
-    background: linear-gradient(45deg, #0f0f11 0%, #47474B 100%);
-}
-
-#joystickInner {
-    position: absolute;
-    border-radius: 50%;
-    top: 30px;
-    left: 30px;
     height: 140px;
     width: 140px;
     background: #131313;

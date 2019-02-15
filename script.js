@@ -1,16 +1,24 @@
 const canvasElem = document.getElementById('stage');
 const ctx = canvasElem.getContext('2d');
-const Colors = ["AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", "DarkCyan", "DarkGoldenRod", "DarkGray", "DarkGrey", "DarkGreen", "DarkKhaki", "DarkMagenta", "DarkOliveGreen", "DarkOrange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", "DarkSlateBlue", "DarkSlateGray", "DarkSlateGrey", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", "DimGray", "DimGrey", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "Gold", "GoldenRod", "Gray", "Grey", "Green", "GreenYellow", "HoneyDew", "HotPink", "IndianRed", "Indigo", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", "LightGrey", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", "LightSlateGrey", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "RebeccaPurple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateGray", "SlateGray", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "WhiteSmoke", "Yellow", "YellowGreen"];
+const Colors = ["AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", "DarkCyan", "DarkGoldenRod", "DarkGrey", "DarkGreen", "DarkKhaki", "DarkMagenta", "DarkOliveGreen", "DarkOrange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", "DarkSlateBlue", "DarkSlateGrey", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", "DimGrey", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "Gold", "GoldenRod", "Grey", "Green", "GreenYellow", "HoneyDew", "HotPink", "IndianRed", "Indigo", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGrey", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGrey", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "RebeccaPurple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "WhiteSmoke", "Yellow", "YellowGreen"];
 let objectsToDraw = [];
 let meteorsGame = [];
 let levels = 0;
 let meteors = 1;
 let addMove = 0.5;
+let effectsPlay = false;
 
 let speedDiv = document.getElementById("speed");
 let levelDiv = document.getElementById("level");
 let joystickHeadDiv = document.getElementById("joystickHead");
-let joystickInnerDiv = document.getElementById("joystickInner");
+let musicOn = document.getElementById("musicon");
+let musicOff = document.getElementById("musicoff");
+let effectsOn = document.getElementById("effectson");
+let effectsOff = document.getElementById("effectsoff");
+
+const errorSound = new sound("Error.mp3");
+const bgSound = new sound("CrazyCountdown.mp3");
+const winnerSound = new sound("Winner.mp3");
 
 canvasElem.width = window.innerWidth * 0.5;
 canvasElem.height = canvasElem.width / 2;
@@ -185,25 +193,25 @@ document.addEventListener('pointermove', function (e) {
 }, true);
 
 function moveOb(moveEvent){
-if (moveEvent.clientY + offset[1] < 25) {
+if (moveEvent.clientY + offset[1] < 20) {
     that.positionY = that.positionY - 4;
     if (that.positionY < 0) {
         that.positionY = 0;
     } else {}
 }
-if (moveEvent.clientX + offset[0] > 25) {
+if (moveEvent.clientX + offset[0] > 30) {
     that.positionX = that.positionX + 4;
     if (that.positionX > canvasElem.width - playerspace.width) {
         that.positionX = canvasElem.width - playerspace.width;
     } else {}
 }
-if (moveEvent.clientY + offset[1] > 25) {
+if (moveEvent.clientY + offset[1] > 30) {
     that.positionY = that.positionY + 4;
     if (that.positionY > canvasElem.height - playerspace.height) {
         that.positionY = canvasElem.height - playerspace.height;
     } else {}
 }
-if (moveEvent.clientX + offset[0] < 25) {
+if (moveEvent.clientX + offset[0] < 20) {
     that.positionX = that.positionX - 4;
     if (that.positionX < 0) {
         that.positionX = 0;
@@ -229,19 +237,23 @@ function checkCollision(meteorsGame) {
         let objectTop = meteorsGame[i].positionY;
         let objectBottom = meteorsGame[i].positionY + meteorsGame[i].height;
         if ((spaceRight > objectLeft) && (spaceTop < objectBottom) && (spaceBottom > objectTop) && (spaceLeft < objectRight)) {
+           
+            if(effectsPlay){errorSound.play()};
             that.positionX = 0;
             that.positionY = 50;
-            left = false;
+           left = false;
             right = false;
             up = false;
             down = false;
             meteors = 1;
             addMove = 0.5;
             levels = 0;
+           
             addMeteor();
         }
     }
     if (spaceRight == canvasElem.width) {
+        if(effectsPlay){ winnerSound.play()};
         that.positionX = 0;
         that.positionY = 50;
         levels = levels + 1;
@@ -262,12 +274,51 @@ function moveObj(meteorsGame) {
     }
 }
 
+musicOn.addEventListener('pointerdown', function(){
+    musicOff.style.display = 'block';
+    musicOn.style.display = 'none';
+    bgSound.play();
+} ,false);
+
+musicOff.addEventListener('pointerdown', function(){
+    musicOn.style.display = 'block';
+    musicOff.style.display = 'none';
+    bgSound.stop();
+}, false);
+
+effectsOn.addEventListener('pointerdown', function(){
+    effectsOff.style.display = 'block';
+    effectsOn.style.display = 'none';
+    effectsPlay = true;
+} ,false);
+
+effectsOff.addEventListener('pointerdown', function(){
+    effectsOn.style.display = 'block';
+    effectsOff.style.display = 'none';
+    effectsPlay = false;
+}, false);
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }    
+}
+
 const run = () => {
     ctx.clearRect(0, 0, canvasElem.width, canvasElem.height);
     drawObjects(objectsToDraw, ctx);
     moveObj(meteorsGame);
     checkCollision(meteorsGame);
-
+    
 }
 
 function timer() {

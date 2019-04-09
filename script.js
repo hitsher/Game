@@ -170,25 +170,20 @@ moveOb(event)
 
 document.addEventListener('pointermove', function (e) {
     event.preventDefault();
-    moveEvent=e
+    moveEvent = e
     if (isDown == true) {
         joystickHeadDiv.style.left = (e.clientX + offset[0]) + 'px';
         joystickHeadDiv.style.top = (e.clientY + offset[1]) + 'px';
 
-        if (e.clientX + offset[0] < -6) {
-            joystickHeadDiv.style.left = "-6px"
-        }
-        if (e.clientX + offset[0] > 56) {
-            joystickHeadDiv.style.left = "56px"
-        }
-        if (e.clientY + offset[1] < -6) {
-            joystickHeadDiv.style.top = "-6px"
-        }
-        if (e.clientY + offset[1] > 56) {
-            joystickHeadDiv.style.top = "56px"
-        }
-
         moveOb(moveEvent)
+        let distance = Math.sqrt(
+            Math.pow((joystickHeadDiv.offsetLeft - 25), 2) + Math.pow((joystickHeadDiv.offsetTop - 25), 2)
+        );
+        let angle = Math.atan2((joystickHeadDiv.offsetLeft - 25), (joystickHeadDiv.offsetTop - 25));
+        if (distance > 55) {
+            joystickHeadDiv.style.left = 25 + (55 * Math.sin(angle)) + "px"
+            joystickHeadDiv.style.top = 25 + (55 * Math.cos(angle)) + "px"
+        }
     }
 }, true);
 

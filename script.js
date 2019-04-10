@@ -150,7 +150,7 @@ document.addEventListener('keyup', function (e) {
 let isDown = false;
 let pointerPosition;
 let offset = [0, 0];
-let moveEvent 
+let moveEvent
 
 joystickHeadDiv.addEventListener("pointerdown", function (e) {
     isDown = true;
@@ -167,6 +167,7 @@ console.log("document.addEventListener(pointerdown")
 moveOb(event)
 })
 */
+let distance;
 
 document.addEventListener('pointermove', function (e) {
     event.preventDefault();
@@ -175,8 +176,8 @@ document.addEventListener('pointermove', function (e) {
         joystickHeadDiv.style.left = (e.clientX + offset[0]) + 'px';
         joystickHeadDiv.style.top = (e.clientY + offset[1]) + 'px';
 
-        moveOb(moveEvent)
-        let distance = Math.sqrt(
+
+        distance = Math.sqrt(
             Math.pow((joystickHeadDiv.offsetLeft - 25), 2) + Math.pow((joystickHeadDiv.offsetTop - 25), 2)
         );
         let angle = Math.atan2((joystickHeadDiv.offsetLeft - 25), (joystickHeadDiv.offsetTop - 25));
@@ -184,34 +185,52 @@ document.addEventListener('pointermove', function (e) {
             joystickHeadDiv.style.left = 25 + (55 * Math.sin(angle)) + "px"
             joystickHeadDiv.style.top = 25 + (55 * Math.cos(angle)) + "px"
         }
+        moveOb(moveEvent);
     }
 }, true);
 
-function moveOb(moveEvent){
-if (moveEvent.clientY + offset[1] < 20) {
-    that.positionY = that.positionY - 4;
-    if (that.positionY < 0) {
-        that.positionY = 0;
-    } else {}
-}
-if (moveEvent.clientX + offset[0] > 30) {
-    that.positionX = that.positionX + 4;
-    if (that.positionX > canvasElem.width - playerspace.width) {
-        that.positionX = canvasElem.width - playerspace.width;
-    } else {}
-}
-if (moveEvent.clientY + offset[1] > 30) {
-    that.positionY = that.positionY + 4;
-    if (that.positionY > canvasElem.height - playerspace.height) {
-        that.positionY = canvasElem.height - playerspace.height;
-    } else {}
-}
-if (moveEvent.clientX + offset[0] < 20) {
-    that.positionX = that.positionX - 4;
-    if (that.positionX < 0) {
-        that.positionX = 0;
-    } else {}
-}
+function moveOb(moveEvent) {
+    let speed = 0;
+    if (distance < 10) {
+        speed = 1;
+    }
+    if (distance < 20 && distance > 10) {
+        speed = 2;
+    }
+    if (distance < 30 && distance > 20) {
+        speed = 3;
+    }
+    if (distance < 40 && distance > 30) {
+        speed = 4;
+    }
+    if (distance > 40) {
+        speed = 5;
+    }
+    
+    if (moveEvent.clientY + offset[1] < 20) {
+        that.positionY = that.positionY - speed;
+        if (that.positionY < 0) {
+            that.positionY = 0;
+        } else {}
+    }
+    if (moveEvent.clientX + offset[0] > 30) {
+        that.positionX = that.positionX + speed;
+        if (that.positionX > canvasElem.width - playerspace.width) {
+            that.positionX = canvasElem.width - playerspace.width;
+        } else {}
+    }
+    if (moveEvent.clientY + offset[1] > 30) {
+        that.positionY = that.positionY + speed;
+        if (that.positionY > canvasElem.height - playerspace.height) {
+            that.positionY = canvasElem.height - playerspace.height;
+        } else {}
+    }
+    if (moveEvent.clientX + offset[0] < 20) {
+        that.positionX = that.positionX - speed;
+        if (that.positionX < 0) {
+            that.positionX = 0;
+        } else {}
+    }
 }
 
 document.addEventListener('pointerup', function () {
@@ -232,23 +251,27 @@ function checkCollision(meteorsGame) {
         let objectTop = meteorsGame[i].positionY;
         let objectBottom = meteorsGame[i].positionY + meteorsGame[i].height;
         if ((spaceRight > objectLeft) && (spaceTop < objectBottom) && (spaceBottom > objectTop) && (spaceLeft < objectRight)) {
-           
-            if(effectsPlay){errorSound.play()};
+
+            if (effectsPlay) {
+                errorSound.play()
+            };
             that.positionX = 0;
             that.positionY = 50;
-           left = false;
+            left = false;
             right = false;
             up = false;
             down = false;
             meteors = 1;
             addMove = 0.5;
             levels = 0;
-           
+
             addMeteor();
         }
     }
     if (spaceRight == canvasElem.width) {
-        if(effectsPlay){ winnerSound.play()};
+        if (effectsPlay) {
+            winnerSound.play()
+        };
         that.positionX = 0;
         that.positionY = 50;
         levels = levels + 1;
@@ -269,25 +292,25 @@ function moveObj(meteorsGame) {
     }
 }
 
-musicOn.addEventListener('pointerdown', function(){
+musicOn.addEventListener('pointerdown', function () {
     musicOff.style.display = 'block';
     musicOn.style.display = 'none';
     bgSound.play();
-} ,false);
+}, false);
 
-musicOff.addEventListener('pointerdown', function(){
+musicOff.addEventListener('pointerdown', function () {
     musicOn.style.display = 'block';
     musicOff.style.display = 'none';
     bgSound.stop();
 }, false);
 
-effectsOn.addEventListener('pointerdown', function(){
+effectsOn.addEventListener('pointerdown', function () {
     effectsOff.style.display = 'block';
     effectsOn.style.display = 'none';
     effectsPlay = true;
-} ,false);
+}, false);
 
-effectsOff.addEventListener('pointerdown', function(){
+effectsOff.addEventListener('pointerdown', function () {
     effectsOn.style.display = 'block';
     effectsOff.style.display = 'none';
     effectsPlay = false;
@@ -300,12 +323,12 @@ function sound(src) {
     this.sound.setAttribute("controls", "none");
     this.sound.style.display = "none";
     document.body.appendChild(this.sound);
-    this.play = function(){
+    this.play = function () {
         this.sound.play();
     }
-    this.stop = function(){
+    this.stop = function () {
         this.sound.pause();
-    }    
+    }
 }
 
 const run = () => {
@@ -313,7 +336,7 @@ const run = () => {
     drawObjects(objectsToDraw, ctx);
     moveObj(meteorsGame);
     checkCollision(meteorsGame);
-    
+
 }
 
 function timer() {
